@@ -1,0 +1,8 @@
+# Basic Dirs
+node_modules/
+dist/
+# Basic files
+.env
+# Terraform
+infrastructure/
+docker-compose.yml

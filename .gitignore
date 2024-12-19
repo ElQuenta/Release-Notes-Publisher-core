@@ -1,0 +1,5 @@
+# Basic Dirs
+node_modules/
+dist/
+# Basic files
+.env

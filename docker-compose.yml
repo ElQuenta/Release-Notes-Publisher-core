@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 6543:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_DATABASE: release_notes_publisher
+    volumes:
+      - MongoDB_data:/data/db
+
+volumes:
+  MongoDB_data:

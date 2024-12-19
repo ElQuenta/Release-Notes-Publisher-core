@@ -1,0 +1,24 @@
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import config from '../config/config';
+
+const JWT_SECRET = config.jwt.tokenSecret;
+
+const generateToken = (userEmail: string) => {
+  const payload = {
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // Token expiry set to 24 hours
+    email: userEmail,
+  };
+
+  return jwt.sign(payload, JWT_SECRET);
+};
+
+const verifyToken = (token: string) => {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+
+export { generateToken, verifyToken };
