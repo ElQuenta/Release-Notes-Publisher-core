@@ -31,8 +31,8 @@ jobs:
         runs-on: [self-hosted]
         steps:
             - name: Pull image from docker hub
-              run: docker pull ${{ secrets.DOCKER_USERNAME }}/release-notes-publisher-core:latest
+              run: sudo docker pull ${{ secrets.DOCKER_USERNAME }}/release-notes-publisher-core:latest
             - name: Delete old container
-              run: docker rm -f release-notes-publisher-core-container
+              run: sudo docker rm -f release-notes-publisher-core-container
             - name: Run docker container
-              run: docker run -d -p 4000:4000 --name release-notes-publisher-core-container ${{ secrets.DOCKER_USERNAME }}/release-notes-publisher-core
+              run: sudo docker run -d -p 4000:4000 --name release-notes-publisher-core-container ${{ secrets.DOCKER_USERNAME }}/release-notes-publisher-core
