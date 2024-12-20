@@ -1,0 +1,36 @@
+name: Deploy Release Notes Publisher manual
+
+on:
+    workflow_dispatch: 
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v4 
+            - name: Crear archivo .env
+              run: |
+                echo "DB_NAME=${{secrets.DB_NAME}}" >> .env
+                echo "DB_HOST=${{secrets.DB_HOST}}" >> .env
+                echo "DB_USER=${{secrets.DB_USER}}" >> .env
+                echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> .env
+                echo "DB_HOST_ONLINE=${{secrets.HOST_ONLINE}}" >> .env
+                echo "SERVER_PORT=4000" >> .env
+            - name: Login to docker hub
+              run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            - name: Build docker image
+              run: docker build -t ${{ secrets.DOCKER_USERNAME }}/release-notes-publisher-core .
+            - name: Publish image to docker hub
+              run: docker push ${{ secrets.DOCKER_USERNAME }}/release-notes-publisher-core:latest
+
+    deploy:
+        needs: build
+        runs-on: [self-hosted]
+        steps:
+            - name: Pull image from docker hub
+              run: docker pull ${{ secrets.DOCKER_USERNAME }}/release-notes-publisher-core:latest
+            - name: Delete old container
+              run: docker rm -f release-notes-publisher-core-container
+            - name: Run docker container
+              run: docker run -d -p 4000:4000 --name release-notes-publisher-core-container ${{ secrets.DOCKER_USERNAME }}/release-notes-publisher-core

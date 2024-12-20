@@ -4,6 +4,7 @@ on:
     pull_request: 
         branches: 
             - develop
+            - main
 
 jobs: 
   Build-Verification:
@@ -38,24 +39,41 @@ jobs:
           uses: tsickert/discord-webhook@v5.3.0
           with:
             webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-            embed-title: "🚀 Nuevo Pull Request 🚀"
-            embed-color: "16711680"
-            embed-description: |                                                    
-                    📜 **Repositorio:** ${{ github.event.repository.name }}
+            embed-title: "✨ ¡Un Pull Request está aquí para revisión! ✨"
+            embed-color: "3447003" # Azul para una sensación profesional y confiable
+            embed-description: |
+                👋 **Hola equipo**, ¡tenemos un nuevo Pull Request (PR) en nuestro repositorio! Aquí están los detalles para que todos estemos al día y podamos colaborar:
+          
+                📂 **Repositorio:**  
+                Este PR pertenece al repositorio [${{ github.event.repository.name }}](${{ github.event.repository.url }}).
         
-                    📝 **PR ID:** #${{ github.event.number }}
+                📝 **Título del PR:**  
+                _"${{ github.event.pull_request.title }}"_  
+                Este título describe brevemente los cambios propuestos. ¡Echa un vistazo!
         
-                    📢 **Título del PR:** ${{ github.event.pull_request.title }}
+                🌐 **Enlace directo:**  
+                Puedes revisar los detalles completos del PR y dejar tus comentarios aquí: [Ver Pull Request](${{ github.event.pull_request.html_url }})
         
-                    🔗 **URL del PR:** ${{ github.event.pull_request.html_url }}
+                🔄 **Detalles del flujo de trabajo:**  
+                - **Branch de origen:** `$BRANCH_NAME`  
+                - **Branch de destino:** `$BRANCH_NAME_DEST`  
+                Esto muestra de dónde vienen los cambios y hacia dónde van. Asegúrate de que todo encaje correctamente.
         
-                    🔀 **Branch origin:** ${{ env.BRANCH_NAME }}
-
-                    🔀 **Branch destiny:** ${{ env.BRANCH_NAME_DEST }}
+                📜 **Resumen de cambios:**  
+                Los cambios propuestos están disponibles para revisión detallada: [Explorar Cambios](${{ github.event.pull_request._links.html.href }}).  
+                Puedes ver los archivos actualizados y evaluar si cumplen con los objetivos del proyecto.
         
-                    🔍 **Cambios:** [Ver Cambios](${{ github.event.pull_request._links.html.href }})
-                    
-                    **¡Revisa la sección de Pull Requests del repositorio!** 
+                👤 **Autor del PR:**  
+                Este PR fue creado por **${{ github.event.pull_request.user.login }}**.  
+                Puedes ver su perfil aquí: [Perfil del Autor](${{ github.event.pull_request.user.html_url }})
+        
+                🎯 **¿Qué sigue?**  
+                - **Revisar el PR:** Ve al enlace y verifica los cambios.  
+                - **Dejar comentarios:** Si tienes sugerencias o encuentras algo que deba ajustarse, ¡no dudes en mencionarlo!  
+                - **Aprobar o solicitar cambios:** Una vez que estés conforme, puedes aprobar el PR o solicitar ajustes antes de que se fusione.
+        
+                🌟 **Gracias por tu colaboración**  
+                Cada revisión y comentario cuenta para que nuestro proyecto sea mejor. ¡Sigamos construyendo algo increíble juntos! 🚀
             embed-author-name: "${{ github.event.pull_request.user.login }}"
             embed-author-url: "${{ github.event.pull_request.user.html_url }}"
-            embed-author-icon-url: "${{ github.event.pull_request.user.avatar_url }}"
+            embed-author-icon-url: "${{ github.event.pull_request.user.avatar_url }}"        

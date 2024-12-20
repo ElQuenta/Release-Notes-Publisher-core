@@ -6,8 +6,8 @@ const {
     DB_PORT: dbport = 6543,
     DB_USER: user = '',
     DB_PASSWORD: password = '',
-    SERVER_PORT: port = 3000,
-    DB_HOST_ONLINE: hostOnLine = false
+    SERVER_PORT: port = 4000,
+    DB_HOST_ONLINE: hostOnLine
 } = process.env;
 
 const config = {
